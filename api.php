@@ -1,14 +1,11 @@
 <?php
-include_once ('connect.php');
-// Check if parameters are provided
-if (isset($_GET['valuteID']) && isset($_GET['from']) && isset($_GET['to'])) {
-    $valuteID = $_GET['valuteID'];
-    $from = $_GET['from'];
-    $to = $_GET['to'];
-
-    $sql = "SELECT * FROM currency WHERE valuteID='$valuteID' AND date_from>='$from' AND date_to<='$to'";
+$conn = mysqli_connect("localhost","root","","currency_exchange");
+$response = array();
+if ($conn){
+    $sql = "SELECT * FROM currency";
     $result = mysqli_query($conn,$sql);
     if($result){
+        header("Content-Type:JSON");
         $i=0;
         while($row = mysqli_fetch_assoc($result)){
             $response[$i]['id'] = $row ['id'];
@@ -20,18 +17,13 @@ if (isset($_GET['valuteID']) && isset($_GET['from']) && isset($_GET['to'])) {
             $response[$i]['date_from'] = $row ['date_from'];
             $response[$i]['date_to'] = $row ['date_to'];
             $i++;
+          
+            
         }
-        // Return the result as JSON
-        header("Content-Type: application/json");
-        echo json_encode($response, JSON_PRETTY_PRINT);
-    } else {
-        // Return error message
-        http_response_code(404);
-        echo json_encode(array("message" => "No records found."));
+        echo json_encode($response,JSON_PRETTY_PRINT);
     }
-} else {
-    // Return error message
-    http_response_code(400);
-    echo json_encode(array("message" => "Invalid parameters."));
+}
+else{
+    echo "Database connection failed";
 }
 ?>

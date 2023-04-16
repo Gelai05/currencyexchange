@@ -1,6 +1,8 @@
 <?php
-include ('connect.php');
+session_start();
+include ('login.php');
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,7 @@ include ('connect.php');
   <h3 class="text-center">Login</h3>
     <form method="POST" action="login.php">
       <div class="form-outline col-lg-6 mx-auto">
-        <input type="username" name="username" id="username" class="form-control border-dark" />
+        <input type="text" name="username" id="username" class="form-control border-dark" />
         <label class="form-label" for="username">Username</label>
       </div>
       <div class="form-outline col-lg-6 mx-auto">
@@ -35,4 +37,4 @@ include ('connect.php');
 
     
 </body>
-</html>
+</html
